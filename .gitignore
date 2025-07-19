@@ -1,0 +1,21 @@
+# Ignore virtual environments
+venv/
+.env/
+*.egg-info/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Ignore specific folders
+week1_intro/
+week2_returns_analysis/
