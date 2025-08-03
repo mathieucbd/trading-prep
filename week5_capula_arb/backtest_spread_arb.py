@@ -130,7 +130,7 @@ class PairBacktester:
             "Volatility (%)": 100 * daily_returns.std() * np.sqrt(252),
             "Sharpe Ratio": calculate_sharpe(self.daily_returns),
             "Sortino Ratio": calculate_sortino(self.daily_returns),
-            "Max Drawdown (%)": calculate_max_drawdown(self.pnl),
+            "Max Drawdown (%)": 100 * calculate_max_drawdown(self.daily_returns),
             "Calmar Ratio": calculate_calmar(self.daily_returns),
             "Hit Ratio (%)": 100 * calculate_hit_ratio(self.daily_returns),
         }
