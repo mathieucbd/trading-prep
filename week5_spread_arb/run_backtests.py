@@ -12,7 +12,7 @@ def main():
         "window": 20, # Determined empirically in spread_ar_concepts.ipynb
         "z_entry": 1.64, # 90% confidence level
         "z_exit": 1.28, # 80% confidence level
-        "positioning_method": "netg",
+        "positioning_method": "net",
         "margin_rate": None,
     }
 
