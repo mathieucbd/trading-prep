@@ -1,7 +1,7 @@
 from backtest_spread_arb import PairBacktester
 import pandas as pd
 
-def main():
+def run_backtest():
     # Define backtest parameters
     params = {
         "file1": "SPY.csv",
@@ -30,4 +30,4 @@ def main():
         print(f"{k}: {v:.2f}")
 
 if __name__ == "__main__":
-    main()
+    run_backtest()
