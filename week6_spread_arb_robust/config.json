@@ -1,0 +1,19 @@
+{
+    "file1": "SPY.csv",
+    "file2": "IVV.csv",
+    "data_subdir":"data",
+    "hedge_ratio": 0.992,
+    "capital": 1000000,
+    "transaction_costs_bps": 1,
+    "slippage_bps": 1,
+    "window": 20, 
+    "z_entry": 1.64, 
+    "z_exit": 1.28, 
+    "positioning_method": "net",
+    "margin_rate": 1,
+    "export_filename": "backtest_timeseries",
+    "export_subdir": "outputs",
+    "plots": true,
+    "log_file": "logs"
+
+}
