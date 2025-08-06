@@ -6,7 +6,26 @@ from utils import calculate_sharpe, calculate_sortino, calculate_hit_ratio, calc
 
 
 class PairBacktester:
-    def __init__(self, file1, file2, data_subdir="data", hedge_ratio=1, transaction_costs=0.0001, window=100, z_entry=2.0, z_exit=0.5, capital=50_000_000, positioning_method="net", margin_rate=0.1):
+    def __init__(
+            self,
+            file1,
+            file2,
+            data_subdir="data",
+            hedge_ratio=1,
+            window=100,
+            z_entry=2.0,
+            z_exit=0.5,
+            transaction_costs_bps=1,
+            slippage_bps=1,
+            capital=1_000_000,
+            positioning_method="net",
+            margin_rate=0.1,
+            export_filename="backtest_timeseries",
+            export_subdir="outputs",
+            plots=True,
+            log_file="logs"
+         ):
+        
         # Resolve absolute path to the data directory relative to this script
         script_dir = os.path.dirname(os.path.abspath(__file__))
         self.data_dir = os.path.join(script_dir, data_subdir)
@@ -20,10 +39,18 @@ class PairBacktester:
         self.label2 = os.path.splitext(file2)[0].upper()
 
         self.hedge_ratio = hedge_ratio
-        self.transaction_costs = transaction_costs
         self.window=window
         self.z_entry=z_entry
         self.z_exit=z_exit
+
+        self.transaction_costs_bps = transaction_costs_bps
+        self.transaction_costs = transaction_costs_bps / 10_000
+        self.slippage_bps = slippage_bps
+        self.slippage = slippage_bps / 10_000
+
+        self.capital = capital
+        self.positioning_method = positioning_method
+        self.margin_rate = margin_rate
 
         # Internal containers
         self.data = None
@@ -36,10 +63,6 @@ class PairBacktester:
         self.cost = None
         self.pnl = None
         self.daily_returns = None
-
-        self.capital = capital
-        self.positioning_method = positioning_method
-        self.margin_rate = margin_rate
 
     
     def load_data(self):
@@ -112,7 +135,7 @@ class PairBacktester:
         # Transaction cost when a trade is done (when position change)
         trade_entry = (self.position != 0) & (position_lagged != self.position)
         self.trade_entry = trade_entry
-        cost = trade_entry.shift(1).fillna(False).astype(float) * self.transaction_costs * self.spread.abs() * units
+        cost = trade_entry.shift(1).astype("boolean").fillna(False).astype(float) * self.transaction_costs * self.spread.abs() * units
         self.cost = cost
         
         self.pnl = raw_pnl - cost
