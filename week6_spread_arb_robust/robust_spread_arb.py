@@ -46,7 +46,7 @@ class PairBacktester:
         self.transaction_costs_bps = transaction_costs_bps
         self.transaction_costs = transaction_costs_bps / 10_000
         self.slippage_bps = slippage_bps
-        self.slippage = slippage_bps / 10_000
+        self.slippage = slippage_bps / 10_000 # Fixed slippage to simplify this backtest, but a real slippage should be modeled depending on volumes and order sizes
 
         self.capital = capital
         self.positioning_method = positioning_method
@@ -135,7 +135,10 @@ class PairBacktester:
         # Transaction cost when a trade is done (when position change)
         trade_entry = (self.position != 0) & (position_lagged != self.position)
         self.trade_entry = trade_entry
-        cost = trade_entry.shift(1).astype("boolean").fillna(False).astype(float) * self.transaction_costs * self.spread.abs() * units
+
+        total_cost_rate = self.transaction_costs + self.slippage
+        cost = trade_entry.shift(1).astype("boolean").fillna(False).astype(float) \
+            * total_cost_rate * self.spread.abs() * units
         self.cost = cost
         
         self.pnl = raw_pnl - cost
