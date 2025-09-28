@@ -14,10 +14,10 @@ def run_backtest():
     parser = argparse.ArgumentParser(description="Run spread arbitrage backtest")
     parser.add_argument("--config", type=str, default=config_dir, help="Path to config.json")
     parser.add_argument("--window", type=float, help="Rolling window for z-score")
-    parser.add_argument("--z_entry", type=float, help="Z_score entry threshold")
-    parser.add_argument("--z_exit", type=float, help="Z_score exit threshold")
+    parser.add_argument("--z_entry", type=float, help="Z-score entry threshold")
+    parser.add_argument("--z_exit", type=float, help="Z-score exit threshold")
     parser.add_argument("--capital", type=float, help="Capital in USD")
-    parser.add_argument("--plots", type=float, default=True, help="Display plots")
+    parser.add_argument("--hedge_ratio", type=float, default=True, help="Hedge ratio")
     args = parser.parse_args()
 
     # --- Load base config ---
