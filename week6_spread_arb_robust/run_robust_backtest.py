@@ -48,10 +48,10 @@ def run_backtest():
 
     # --- Plots ---
     if params.get("plots", True):
-        plot_pnl = plot_pnl_curve(bt.pnl, out_dir="outputs", filename="pnl_curve.png")
-        plot_spread = plot_spread_zscore(bt.spread, bt.z_score, out_dir="outputs", filename="spread_zscore.png")
-        plot_drawdowns = plot_drawdowns(bt.pnl, out_dir="outputs", filename="drawdowns.png")
-        logging.info("Saved plots: %s, %s, %s", plot_pnl, plot_spread, plot_drawdowns)
+        out1 = plot_pnl_curve(bt.pnl, out_dir="outputs", filename="pnl_curve.png")
+        out2 = plot_spread_zscore(bt.spread, bt.z_score, out_dir="outputs", filename="spread_zscore.png")
+        out3 = plot_drawdowns(bt.pnl, out_dir="outputs", filename="drawdowns.png")
+        logging.info("Saved plots: %s, %s, %s", out1, out2, out3)
 
     logging.info("Backtest complete. Metrics: %s", metrics)
     print("\n--- Metrics ---")

@@ -7,7 +7,7 @@
     "z_entry": 1.64, 
     "z_exit": 1.28,
     "transaction_costs_bps": 1,
-    "slippage_bps": 2,
+    "slippage_bps": 1,
     "capital": 1000000,
     "positioning_method": "net",
     "margin_rate": 1,
