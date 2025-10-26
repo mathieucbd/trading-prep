@@ -29,28 +29,31 @@ def run_backtest():
         if val is not None:
             params[keys] = val
 
-    # --- Logging setup ---
-    os.makedirs(os.path.dirname(params["log_file"]), exist_ok=True)
+# --- Logging setup ---
+    log_file = os.path.join(script_dir, params["log_file"])
+    os.makedirs(os.path.dirname(log_file), exist_ok=True)
     logging.basicConfig(
-        filename=params["log_file"],
+        filename=log_file,
         level=logging.INFO, # Possible levels: DEBUG, INFO, WARNING, ERROR, CRITICAL
         format="%(asctime)s [%(levelname)s] %(message)s"
     )
-    logging.info("Starting backtets with parameters: %s", params)
+    logging.info("Starting backtest with parameters: %s", params)
 
     # --- Run Backtest ---
     bt = PairBacktester(**params)
     metrics = bt.run_backtest(verbose=True)
 
     # --- Export CSV ---
-    os.makedirs(os.path.dirname(params["export_filename"]), exist_ok=True)
-    bt.export_timeseries(filename=params["export_filename"])
+    export_file = os.path.join(script_dir, params["export_filename"])
+    os.makedirs(os.path.dirname(export_file), exist_ok=True)
+    bt.export_timeseries(filename=export_file)
 
     # --- Plots ---
     if params.get("plots", True):
-        out1 = plot_pnl_curve(bt.pnl, out_dir="outputs", filename="pnl_curve.png")
-        out2 = plot_spread_zscore(bt.spread, bt.z_score, out_dir="outputs", filename="spread_zscore.png")
-        out3 = plot_drawdowns(bt.pnl, out_dir="outputs", filename="drawdowns.png")
+        plots_dir = os.path.join(script_dir, "outputs")
+        out1 = plot_pnl_curve(bt.pnl, out_dir=plots_dir, filename="pnl_curve.png")
+        out2 = plot_spread_zscore(bt.spread, bt.z_score, out_dir=plots_dir, filename="spread_zscore.png")
+        out3 = plot_drawdowns(bt.pnl, out_dir=plots_dir, filename="drawdowns.png")
         logging.info("Saved plots: %s, %s, %s", out1, out2, out3)
 
     logging.info("Backtest complete. Metrics: %s", metrics)
